@@ -3,14 +3,7 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const bodyParser = require('body-parser');
-let mongoose;
-try {
-  mongoose = require('mongoose');
-} catch (e) {
-  console.log(e);
-}
-const router = express.Router();
-const {createAndSaveUser, getAllUsers} = require('./myApp');
+const {createAndSaveUser, getAllUsers, addExercise, getExerciseLog} = require('./myApp');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,11 +16,22 @@ app.get('/', (req, res) => {
 
 app.post('/api/exercise/new-user', (req, res) => {
   const {username} = req.body;
-  createAndSaveUser(username, (err, results) => res.status(201).json({_id: results._id, username: results.username}));
+  createAndSaveUser(username, (err, data) => res.status(201).json({_id: data._id, username: data.username}));
 });
 
 app.get('/api/exercise/users', (req, res) => {
-  getAllUsers((err, results) => res.status(200).json(results));
+  getAllUsers((err, data) => res.status(200).json(data));
+});
+
+app.post('/api/exercise/add', (req, res) => {
+  const body = req.body;
+  const {userId} = body;
+  const exercise = {description: body.description, duration: body.duration, date: body.date}
+  addExercise(userId, exercise, (err, data) => res.status(201).json(data));
+});
+
+app.get('/api/exercise/log', (req, res) => {
+  getExerciseLog(req.query,(err, data) => res.status(200).send(data));
 });
 
 

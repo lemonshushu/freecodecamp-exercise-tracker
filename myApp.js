@@ -36,8 +36,7 @@ const getAllUsers = (done) => {
 const addExercise = (userId, exercise, done) => {
   let date = new Date(exercise.date)
   if (isNaN(date.getTime())) {
-    console.log('isNan');
-    date = Date.now();
+    date = new Date();
   }
   const newExercise = {...exercise, date: date};
   User.findById(userId, (err, foundUser) => {

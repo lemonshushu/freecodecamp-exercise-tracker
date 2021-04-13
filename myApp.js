@@ -52,7 +52,7 @@ const addExercise = (userId, exercise, done) => {
       currLog.log.push(newExercise);
       currLog.save((err, savedLog) => {
         if (err) console.log(err);
-        done(null, {...foundUser._doc, ...newExercise});
+        done(null, {_id: foundUser._id, username: foundUser.username, ...newExercise});
       });
     });
   })

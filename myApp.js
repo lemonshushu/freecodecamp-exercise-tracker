@@ -66,12 +66,14 @@ const getExerciseLog = (options, done) => {
     Log.findById(userId, (err, foundLog) => {
       if (err) console.error(err);
       if (from && to) {
-        result.log = foundLog.log.filter(exercise => exercise.date >= new Date(from) && exercise.date <= new Date(to));
+        result['log'] = foundLog['log'].filter(exercise => exercise.date >= new Date(from) && exercise.date <= new Date(to));
+      } else {
+        result['log'] = foundLog['log'];
       }
       if (limit) {
-        result.log = result.log.slice(undefined, limit);
+        result['log'] = result['log'].slice(undefined, limit);
       }
-      result.count = result.log.length;
+      result.count = result['log'].length;
       done(null, result);
     });
   });

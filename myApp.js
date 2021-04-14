@@ -66,8 +66,11 @@ const getExerciseLog = (options, done) => {
     Log.findById(userId, (err, foundLog) => {
       if (err) console.error(err);
       if (from && to) {
-        const dateObject = new Date(foundLog.date);
-        result['log'] = foundLog['log'].filter(foundLog => dateObject >= new Date(from) && dateObject <= new Date(to));
+        result['log'] = foundLog['log'].filter(log => {
+          const dateObject = new Date(log.date);
+          return dateObject >= new Date(from) && dateObject <= new Date(to);
+        })
+          
       } else {
         result['log'] = foundLog['log'];
       }

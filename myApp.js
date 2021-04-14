@@ -38,7 +38,7 @@ const addExercise = (userId, exercise, done) => {
   if (isNaN(date.getTime())) {
     date = new Date();
   }
-  const newExercise = {...exercise, date: date.toDateString()};
+  const newExercise = {...exercise, date: date.toDateString(), duration: Number(exercise.duration)};
   User.findById(userId, (err, foundUser) => {
     if (err) console.error(err);
     if (!foundUser) done(null, {error: 'No User Found!'});

@@ -38,7 +38,7 @@ const addExercise = (userId, exercise, done) => {
   if (isNaN(date.getTime())) {
     date = new Date();
   }
-  const newExercise = {...exercise, date: date};
+  const newExercise = {...exercise, date: date.toDateString()};
   User.findById(userId, (err, foundUser) => {
     if (err) console.error(err);
     if (!foundUser) done(null, {error: 'No User Found!'});
@@ -66,7 +66,8 @@ const getExerciseLog = (options, done) => {
     Log.findById(userId, (err, foundLog) => {
       if (err) console.error(err);
       if (from && to) {
-        result['log'] = foundLog['log'].filter(exercise => exercise.date >= new Date(from) && exercise.date <= new Date(to));
+        const dateObject = new Date(exercise.date);
+        result['log'] = foundLog['log'].filter(exercise => dateObject >= new Date(from) && dateObject <= new Date(to));
       } else {
         result['log'] = foundLog['log'];
       }
